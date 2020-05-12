@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE course [
+      <!ELEMENT course (name, unit+) >
+      <!ELEMENT name (#PCDATA) >
+      <!ELEMENT unit (title, lecturer*, tutor*) >
+      <!ELEMENT title (#PCDATA) >
+      <!ELEMENT lecturer (surname, othernames?, email*) >
+      <!ELEMENT tutor (surname, othernames?, email*) >
+      <!ELEMENT surname (#PCDATA) >
+      <!ATTLIST surname language CDATA "English" >
+      <!ELEMENT othernames (#PCDATA) >
+      <!ATTLIST othernames language CDATA "English" >
+      <!ELEMENT email (#PCDATA) >
+]>
+
+<course>
+     <name>Bachelor of Science - Internet Computing</name>
+     <duration>3 years</duration>
+     <unit>
+          <title>ICT375 Advanced Web Programming</title>
+          <lecturer>
+              <surname language="English">Xie</surname>
+              <othernames language="English">Hong</othernames>
+              <email>h.xie@murdoch.edu.au</email>
+          </lecturer>
+     </unit>
+     <unit>
+          <title>ICT108 Introduction to Multimedia and the Internet</title>
+          <lecturer>
+              <surname>Rai</surname>
+              <othernames>Shri</othernames>
+              <email>s.rai@murdoch.edu.au</email>
+          </lecturer>
+     </unit>
+</course>
