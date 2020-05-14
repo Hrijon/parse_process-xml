@@ -21,9 +21,9 @@ foreach my $elem ($doc->getElementsByTagName("title"))
 		if (($child->getNodeType == TEXT_NODE)&&($child->getNodeValue ~~ /Internet+/))
 		{
 			print $child->getNodeValue;
-			$counts{$elem}++; 	
 		}
 	}
+	$counts{$elem}++; 	
 } 
 print"\n";
 
