@@ -16,6 +16,35 @@ fs.readFile('course.xml', 'utf-8', function (err, data) {
 	doc = parser.parseFromString(data, 'application/xml');
 	targetNodes = doc.getElementsByTagName('unit');
 
+    const readline = require('readline');
+
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    function userInp(){
+        rl.question('Enter element name(string only)? ', (answer) => {
+            
+            console.log(isNaN(answer));
+            if (isNaN(answer))
+            {
+                console.log(`your element name is: ${answer}`);
+
+                for(let j = 0; j<targetNodes.length; j++)
+                {
+                    let nodeValue = targetNodes[j].getElementsByTagName(answer)[0];
+                    console.log("Your elements are: ", nodeValue.textContent);
+                }                  
+            }
+            else
+            {
+                console.log("Please enter valid element name.");
+            }
+            rl.close();
+        });
+    }
+
     for(i=0; i < targetNodes.length; i++)
     {
         let title = targetNodes[i].getElementsByTagName('title');
@@ -38,4 +67,6 @@ fs.readFile('course.xml', 'utf-8', function (err, data) {
         }        
     }
     console.log("Total number of units containing Internet is: ", count);
+    userInp();
+
 });
