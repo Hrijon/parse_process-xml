@@ -26,15 +26,16 @@ fs.readFile('course.xml', 'utf-8', function (err, data) {
         {
             console.log("The title is: ", title[0].textContent);
             count++;
-        }
-
-        // for(let j = 0; j<title.length; j++)
-        // {
-        //     // let surname = lecturer[j].getElementsByTagName('surname')[0];
-        //     console.log("The title is: ", title.textContent);
-        // }        
+        
+            for(let j = 0; j<lecturer.length; j++)
+            {
+                let surname = lecturer[j].getElementsByTagName('surname')[0];
+                let othernames = lecturer[j].getElementsByTagName('othernames')[0];
+                let fullname = (surname.textContent + " " + othernames.textContent)
+               
+                console.log("The full name is: ", fullname);
+            }
+        }        
     }
-    
-console.log("Total number of units containing Internet is: ", count);
-    
+    console.log("Total number of units containing Internet is: ", count);
 });
