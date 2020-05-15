@@ -24,5 +24,4 @@ fs.readFile('course.xml', 'utf-8', function (err, data) {
             console.log("The surname is: ", surname.textContent);
         }        
     }
-    
 });

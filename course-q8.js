@@ -2,71 +2,96 @@
 var xmldom = require('xmldom').DOMParser;
 var fs = require('fs');
 
-var parser, doc, targetNodes;
+var parser, doc, tNodes, course;
 var i;
 var count = 0;
 var word = "Internet";
 
-fs.readFile('course.xml', 'utf-8', function (err, data) {
-	if (err) {
-		throw err;
-	}
+fs.readFile('course.xml', 'utf-8', function (err, data) 
+{
+    if (err)
+    {
+        throw err;
+    }
 
 	parser = new xmldom();
 	doc = parser.parseFromString(data, 'application/xml');
-	targetNodes = doc.getElementsByTagName('unit');
+    tNodes = doc.getElementsByTagName('unit');
+    course = doc.getElementsByTagName('course');
 
     const readline = require('readline');
+    const regex = /[a-z]/g;
 
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
 
-    function userInp(){
-        rl.question('Enter element name(string only)? ', (answer) => {
-            
-            console.log(isNaN(answer));
-            if (isNaN(answer))
-            {
-                console.log(`your element name is: ${answer}`);
+    lecDetail();
+    readLine();
 
-                for(let j = 0; j<targetNodes.length; j++)
+    function lecDetail()
+    {
+        for(i=0; i < tNodes.length; i++)
+        {
+            let title = tNodes[i].getElementsByTagName('title');
+            let lecturer = tNodes[i].getElementsByTagName('lecturer');
+            var tData = title[0].textContent;
+
+            if(tData.includes(word))
+            {
+                console.log("\nTitle containing word Internet is: ", title[0].textContent);
+                count++;
+
+                for(let j = 0; j<lecturer.length; j++)
                 {
-                    let nodeValue = targetNodes[j].getElementsByTagName(answer)[0];
-                    console.log("Your elements are: ", nodeValue.textContent);
-                }                  
+                    let surname = lecturer[j].getElementsByTagName('surname')[0];
+                    let othernames = lecturer[j].getElementsByTagName('othernames')[0];
+                    let fullname = (surname.textContent + " " + othernames.textContent)
+                
+                    console.log("Fullname of lecturer is: ", fullname);
+                }
+            }        
+        }
+        console.log("\nTotal number of units containing Internet is: ", count);
+    }//end od lecDetail()
+
+    function readLine()
+    {
+        rl.question('\nEnter element name(string only): ', (answer) => 
+        {    
+           userInp(answer);
+            rl.close();
+        });
+    }//end of readline()
+
+    function userInp(answer)
+    {
+        if(answer === "name" || answer === "duration")
+        { 
+            for(var i=0; i<course.length; i++){
+                console.log(course[i].parentNode.getElementsByTagName(answer)[i].firstChild.nodeValue);
+            }
+        }
+        else if(answer === "title" || answer === "lecturer" || answer === "surname" || answer === "othernames" || answer === "email")
+        {
+            if(answer.match(regex))
+            {
+                console.log(`\nYour element name is: ${answer}`);
+                for(let j = 0; j<tNodes.length; j++)
+                {
+                    let nodeValue = tNodes[j].getElementsByTagName(answer)[0];
+                    console.log(`Values of ${answer} is: `, nodeValue.textContent);
+                }
             }
             else
             {
-                console.log("Please enter valid element name.");
+                console.log("\nPlease enter valid element name.");
             }
-            rl.close();
-        });
-    }
-
-    for(i=0; i < targetNodes.length; i++)
-    {
-        let title = targetNodes[i].getElementsByTagName('title');
-        let lecturer = targetNodes[i].getElementsByTagName('lecturer');
-
-        var tData = title[0].textContent;
-        if(tData.includes(word))
+        }
+        else
         {
-            console.log("The title is: ", title[0].textContent);
-            count++;
-        
-            for(let j = 0; j<lecturer.length; j++)
-            {
-                let surname = lecturer[j].getElementsByTagName('surname')[0];
-                let othernames = lecturer[j].getElementsByTagName('othernames')[0];
-                let fullname = (surname.textContent + " " + othernames.textContent)
-               
-                console.log("The full name is: ", fullname);
-            }
-        }        
-    }
-    console.log("Total number of units containing Internet is: ", count);
-    userInp();
-
+            console.log("please enter a valid element name and try again!");
+        }
+    }//end of userInp()
 });

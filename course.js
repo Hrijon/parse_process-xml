@@ -16,7 +16,6 @@ fs.readFile('course.xml', 'utf-8', function (err, data) {
 	tNode = doc.getElementsByTagName('surname');
 
 	for (i in tNode) {
-		// process current ith node
 		obj = tNode[i];
 		if (obj.firstChild) {
 			value = obj.firstChild.nodeValue;
